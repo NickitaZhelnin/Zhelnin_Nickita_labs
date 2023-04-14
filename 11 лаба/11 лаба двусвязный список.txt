@@ -1,0 +1,195 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+    char val;
+    Node* next;
+    Node* prev;
+
+    Node(char _val) : prev(nullptr), val(_val), next(nullptr) {}
+};
+
+struct list {
+    Node* first;
+    Node* last;
+
+    list() : first(nullptr), last(nullptr) {}
+
+    bool is_empty() {
+        return first == nullptr;
+    }
+    void push_front(char _val){
+        Node* p = new Node(_val);
+        p->next = first;
+        first = p;
+    }
+    void push_back(char _val) {
+        Node* p = new Node(_val);
+        if (is_empty()) {
+            first = p;
+            last = p;
+            return;
+        }
+        last->next = p;
+        last = p;
+    }
+    void push_mid(char _val){
+        Node* p = new Node(_val);
+        Node* p2 = first;
+        int len = 0;
+         while (p2 != NULL) {
+            len++;
+            p2 = p2->next;
+        }
+        cout << "Dlina " << len << endl;
+        len = len / 2;
+        Node* p3 = first;
+        for(int i = 0; i < len-1; i++) p3 = p3->next;
+        Node* p4 = first;
+        for(int i = 0; i < len; i++) p4 = p4->next;
+        p3->next = p;
+        p->prev = p3;
+        p->next = p4;
+        p4->prev = p;
+    }
+    void remove_mid(){
+        Node* p2 = first;
+        int len = 0;
+         while (p2 != NULL) {
+            len++;
+            p2 = p2->next;
+        }
+        cout << "Dlina " << len << endl;
+        if(len % 2 == 1) len = len / 2;
+        else len = len / 2 -1;
+        Node* p3 = first;
+        for(int i = 0; i < len-1; i++) p3 = p3->next;
+        Node* p4 = first;
+        for(int i = 0; i < len+1; i++) p4 = p4->next;
+        p3->next = p4;
+        p4->prev = p3;
+    }
+    void print() {
+        if (is_empty()) return;
+        Node* p = first;
+        while (p) {
+            cout << p->val << " ";
+            p = p->next;
+        }
+        cout << endl;
+    }
+
+    Node* find(char _val) {
+        Node* p = first;
+        while (p && p->val != _val) p = p->next;
+        return (p && p->val == _val) ? p : nullptr;
+    }
+
+    void remove_first() {
+        if (is_empty()) return;
+        Node* p = first;
+        first = p->next;
+        first->prev = nullptr;
+        delete p;
+    }
+
+    void remove_last() {
+        if (is_empty()) return;
+        if (first == last) {
+            remove_first();
+            return;
+        }
+        Node* p = first;
+        while (p->next != last) p = p->next;
+        p->next = nullptr;
+        delete last;
+        last = p;
+    }
+    void push_k(char _val, int numb){
+        Node* p = new Node(_val);
+        Node* p2 = first;
+        Node* p3 = first;
+        if(numb == 1){
+            p->next = first;
+            first->prev = p;
+            first = p;
+            return;
+        }
+        for(int i = 0; i<numb-2 ; i++){
+            p2 = p2->next;
+        }
+        for(int i = 0; i<numb-1 ; i++){
+            p3 = p3->next;
+        }
+        p2->next = p;
+        p->prev = p2;
+        p->next = p3;
+        p3->prev = p;
+    }
+    
+    void delete_k(int numb){
+        Node* p = first;
+        Node* p2 = first;
+        for(int i = 0; i<numb-3 ; i++){
+            p = p->next;
+        }
+        for(int i = 0; i<numb-1 ; i++){
+            p2 = p2->next;
+        }
+        p->next = p2;
+        p2->prev = p;
+    }
+    
+    
+};
+
+int main()
+{
+    char a, b;
+    int k, obj, obj2, k2;
+    int numb_nodes;
+    list l;
+    cout << "Write a number of values: " << endl;
+    cin >> numb_nodes;
+    while(numb_nodes>0){
+        cin >> a;
+        l.push_back(a);
+        numb_nodes--;
+    }
+    cout << "Values: ";
+    l.print();
+    l.push_back('r');
+    l.print();
+    l.push_front('f');
+    l.print();
+    l.push_mid('u');
+    l.print();
+    l.remove_first();
+    l.print();
+    l.remove_last();
+    l.print();
+    l.remove_mid();
+    l.print();
+    cout << "Write a k: " << endl;
+    cin >> k;
+    cout << "Write a numb before push: " << endl;
+    cin >> obj;
+    for(int i = 0; i<k; i++){
+        cin >> b;
+        l.push_k(b, obj);
+        obj++;
+    }
+    l.print();
+    
+    cout << "Write a k2: " << endl;
+    cin >> k2;
+    cout << "Write a numb before delete: " << endl;
+    cin >> obj2;
+    for(int i = 0; i<k2; i++){
+        l.delete_k(obj2);
+        obj2--;
+    }
+    l.print();
+    
+    return 0;
+}

@@ -1,0 +1,167 @@
+//стэк
+#include <iostream>
+using namespace std;
+
+struct Node {
+    char val;
+    Node* next;
+
+    Node(char _val) : val(_val), next(nullptr) {}
+};
+
+struct list {
+    Node* top;
+
+    list() : top(nullptr) {}
+
+    bool is_empty() {
+        return top == nullptr;
+    }
+    void push_top(char _val){
+        Node* p = new Node(_val);
+        p->next = top;
+        top = p;
+    }
+    void push_down(char _val) {
+        Node* p = new Node(_val);
+        Node* temp = top;
+        while (temp->next != NULL) {
+            temp = temp->next;
+        }
+        if (is_empty()) {
+            top = p;
+            return;
+        }
+        temp->next = p;
+    }
+    void push_mid(char _val){
+        Node* p = new Node(_val);
+        Node* temp = top;
+        int len = 0;
+         while (temp != NULL) {
+            len++;
+            temp = temp->next;
+        }
+        //cout << "Dlina " << len << endl;
+        len = len / 2;
+        Node* p3 = top;
+        for(int i = 0; i < len-1; i++) p3 = p3->next;
+        Node* p4 = top;
+        for(int i = 0; i < len; i++) p4 = p4->next;
+        p3->next = p;
+        p->next = p4;
+    }
+    void remove_mid(){
+        Node* p2 = top;
+        int len = 0;
+         while (p2 != NULL) {
+            len++;
+            p2 = p2->next;
+        }
+        //cout << "Dlina " << len << endl;
+        if(len % 2 == 1) len = len / 2;
+        else len = len / 2 -1;
+        Node* p3 = top;
+        for(int i = 0; i < len-1; i++) p3 = p3->next;
+        Node* p4 = top;
+        for(int i = 0; i < len+1; i++) p4 = p4->next;
+        p3->next = p4;
+    }
+    void print() {
+        if (is_empty()) return;
+        Node* p = top;
+        while (p) {
+            cout << p->val << endl;
+            p = p->next;
+        }
+        cout << endl;
+    }
+
+    void remove_top() {
+        if (is_empty()) return;
+        Node* p = top;
+        top = p->next;
+        delete p;
+    }
+    
+    void remove_down() {
+        int k = 0;
+        if (is_empty()) return;
+        if (top->next == NULL) {
+            remove_top();
+            return;
+        }
+        Node* p = top;
+        while (p->next != NULL){
+            p = p->next;
+            k++;
+        }
+        Node* p2 = top;
+        for(int i = 0; i<k-1;i++) p2=p2->next;
+        p2->next = nullptr;
+        delete p;
+    }
+
+};
+void print_menu(){
+    cout << "1. Push top" << endl;
+    cout << "2. Push down" << endl;
+    cout << "3. Push mid" << endl;
+    cout << "4. Remove top" << endl;
+    cout << "5. Remove down" << endl;
+    cout << "6. Remove mid" << endl;
+    cout << "7. Print stack" << endl;
+    cout << "8. End" << endl;
+}
+list l;
+void menu(){
+    int x;
+    bool f = true;
+    char a;
+    while(f){ print_menu(); cin >> x; cout << endl;
+    switch(x){
+        case 1:
+            cout << "Write an letter: ";
+            cin >> a;
+            cout << endl;
+            l.push_top(a);
+            break;
+        case 2:
+            cout << "Write an letter: ";
+            cin >> a;
+            cout << endl;
+            l.push_down(a);
+            break; 
+        case 3:
+            cout << "Write an letter: ";
+            cin >> a;
+            cout << endl;
+            l.push_mid(a);
+            break;
+        case 4:
+            l.remove_top();
+            break;
+        case 5:
+            l.remove_down();
+            break;
+        case 6:
+            l.remove_mid();
+            break;
+        case 7:
+            l.print();
+            cout << endl;
+            break;
+        case 8:
+            f = false;
+            break;
+        default:
+            cout << "No, man" << endl;
+            break;
+    }
+    }
+}
+int main()
+{
+    menu();
+    return 0;
+}
