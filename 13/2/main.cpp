@@ -105,15 +105,10 @@ void menu(const int c, Q q) {
 		cout << q << endl;
 		V v = copy_q_to_v(q);
 		auto mini = min_element(v.begin(), v.end());
-		//cout << "Summary of each elment: " << endl;
-		//for_each(v.begin(), v.end(), [](Pair& p) {cout << p.sum() << ' '; });
-        int pos;
+        	int pos;
 		cout << "\nPosition: "; cin >> pos;
 		auto iter = v.cbegin();
-        v.emplace(iter+pos-1, mini);
-		//auto s = remove_if(v.begin(), v.end(), [one, two](Pair& p) {return p >= one && p <= two; });
-		//v.erase(s, v.end());
-
+        	v.emplace(iter+pos-1, mini);
 		cout << "Elements: " << endl;
 		for_each(v.begin(), v.end(), [](Pair& p) {cout << p; });
 		break;
@@ -122,13 +117,9 @@ void menu(const int c, Q q) {
 	case 5: {
 		cout << q << endl << endl;
 		V v = copy_q_to_v(q);
-		//auto mini = min_element(v.begin(), v.end());
 		auto maxi = max_element(v.begin(), v.end());
-		//cout << "min: " << *mini;
 		cout << "max: " << *maxi;
 		int tmp;
-		//sum = *mini + *maxi;
-		//cout << "summary = " << sum << endl;
 		for_each(v.begin(), v.end(), [&maxi](Pair& p) {p /= *maxi;});
 		cout << endl << q << endl;
 		break;
