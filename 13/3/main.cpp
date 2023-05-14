@@ -15,14 +15,6 @@ struct Comp_less{
         else return false;
     }
 };
-/*
-
-ostream& operator<<(ostream& out, Q v) {
-    //V v = copy_q_to_v(q);
-	for_each(v.begin(), v.end(), [](Pair& p) {cout << p; });
-	return out;
-}
-*/
 void Print(Q v){
     multiset<Pair>::iterator i;
     for(i = v.begin(); i!=v.end(); ++i) {
@@ -43,7 +35,6 @@ void menu(const int c, Q v) {
 		cout << "< - po vozr\n> - po ubiv\n";
 		char op;
 		cin >> op;
-		//V v = copy_q_to_v(q);
 		if (op == '<') sort(v.begin(), v.end());
 		else if (op == '>') sort(v.begin(), v.end(), Comp_less());
 		else cout << "wrong character\n";
@@ -56,7 +47,6 @@ void menu(const int c, Q v) {
 		cout << "Input value:\n";
 		Pair value;
 		cin >> value;
-		//V v = copy_q_to_v(q);
 		auto it = find_if(v.begin(), v.end(), bind2nd(ptr_fun(EQUAL), value));
 		if (it == v.end()) {
 			cout << "no such element!" << endl;
@@ -73,7 +63,6 @@ void menu(const int c, Q v) {
 	case 3: {
 		Print(v);
 		Pair sum;
-		//V v = copy_q_to_v(q);
 		for_each(v.begin(), v.end(), [&sum](Pair& p) {sum += p; });
 		sum.set_first(sum.get_first() / v.size());
 		sum.set_second(sum.get_second() / v.size());
@@ -87,17 +76,10 @@ void menu(const int c, Q v) {
 		  //dobavit min
 	case 4: {
 		Print(v);
-		//V v = copy_q_to_v(q);
 		auto mini = min_element(v.begin(), v.end());
-		//cout << "Summary of each elment: " << endl;
-		//for_each(v.begin(), v.end(), [](Pair& p) {cout << p.sum() << ' '; });
-        int pos;
+       		int pos;
 		cout << "\nPosition: "; cin >> pos;
-		//auto iter = v.cbegin();
-        v.insert(*mini);
-		//auto s = remove_if(v.begin(), v.end(), [one, two](Pair& p) {return p >= one && p <= two; });
-		//v.erase(s, v.end());
-
+        	v.insert(*mini);
 		cout << "Elements: " << endl;
 		for_each(v.begin(), v.end(), [](Pair& p) {cout << p; });
 		break;
@@ -105,14 +87,9 @@ void menu(const int c, Q v) {
 		  //delenie na max
 	case 5: {
 		Print(v);
-		//V v = copy_q_to_v(q);
-		//auto mini = min_element(v.begin(), v.end());
 		auto maxi = max_element(v.begin(), v.end());
-		//cout << "min: " << *mini;
 		cout << "max: " << *maxi;
 		int tmp;
-		//sum = *mini + *maxi;
-		//cout << "summary = " << sum << endl;
 		for_each(v.begin(), v.end(), [&maxi](Pair& p) {p /= *maxi;});
 		Print(v);
 		break;
@@ -141,9 +118,6 @@ int main() {
 	    cin >> a;
 	    q.insert(a);
 	}
-	//q = make_q(n);
-	//V v = copy_q_to_v(q);
-	//generate(v.begin(), v.end(), []() {Pair p; p.set_random(); return p; });
 	Print(q);
 
 	while (true) {
